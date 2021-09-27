@@ -1,0 +1,9 @@
+input::placeholder {
+  font-size: 20px;
+  
+}
+input[type="text"]
+{
+    font-size:20px;
+    color: slategray
+}
