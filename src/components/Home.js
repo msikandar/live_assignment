@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Switch } from "antd";
 import { Button } from "antd";
 import { LogoutOutlined } from "@ant-design/icons";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { userLogout } from "../redux/actions/appActions";
 
-function Home() {
+function Home({ user }) {
   let history = useHistory();
+  const dispatch = useDispatch();
   const [daymode, setdaymode] = useState(true);
   const textwhite = "white";
   const styles = {
@@ -15,6 +19,7 @@ function Home() {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
+      flexWrap: "wrap",
     },
     brand: {
       color: textwhite,
@@ -32,9 +37,9 @@ function Home() {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-around",
+      flexWrap: "wrap",
     },
     daymode: {
-      background: "rgb(87,166,249)",
       background:
         "linear-gradient(276deg, rgba(87,166,249,1) 35%, rgba(50,225,146,1) 100%, rgba(0,212,255,1) 100%)",
       height: "100vh",
@@ -45,10 +50,24 @@ function Home() {
     },
   };
 
+  useEffect(() => {
+    // if (user.email) {
+    //   history.push("/signin")
+    //   console.log(user);
+    // }
+    if (user.email === undefined) {
+      history.push("/signin");
+    } 
+    console.log(user.email);
+  }, [user]);
   function onChange(checked) {
     setdaymode(checked);
     console.log(`switch to ${checked}`);
   }
+  const handleLogout = () => {
+    dispatch(userLogout());
+    history.push("/signin");
+  };
 
   return (
     <div style={daymode ? styles.daymode : styles.darkmode}>
@@ -101,9 +120,7 @@ function Home() {
             shape="round"
             icon={<LogoutOutlined />}
             size="large"
-            onClick={() => {
-              history.push("/signin");
-            }}
+            onClick={handleLogout}
           >
             Logout
           </Button>

@@ -5,12 +5,15 @@ import { Input } from "antd";
 import { Button } from "antd";
 import "./Signup.css";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { userSignup } from "../redux/actions/appActions";
 
 function Signup() {
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   let history = useHistory();
+  const dispatch = useDispatch();
   const styles = {
     border: {
       height: "100vh",
@@ -55,10 +58,21 @@ function Signup() {
     },
   };
   const handleSubmit = () => {
-    console.log("");
     console.log(name, email, password);
-
-    history.push("/signin");
+    if (
+      name.trim().length > 0 &&
+      email.trim().length > 0 &&
+      password.trim().length > 0
+    ) {
+      dispatch(
+        userSignup({
+          userName: name,
+          email: email,
+          password: password,
+        })
+      );
+      history.push("/signin");
+    }
   };
   return (
     <div>

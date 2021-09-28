@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col } from "antd";
 import { Image } from "antd";
 import { Input } from "antd";
 import { Button } from "antd";
 import "./Signup.css";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { userLogin } from "../redux/actions/appActions";
+import { useSelector } from "react-redux";
 
 function Signin() {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   let history = useHistory();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.loginData);
+  console.log(user, "auth");
   const styles = {
     border: {
       height: "100vh",
@@ -53,10 +59,24 @@ function Signin() {
       fontSize: "20px",
     },
   };
+  useEffect(() => {
+    if (user.email != undefined) {
+      history.push("/");
+    } 
+    console.log(user);
+  }, []);
   const handleSubmit = () => {
     console.log(email, password);
 
-    history.push("/");
+    dispatch(
+      userLogin({
+        email: email,
+        password: password,
+      })
+    );
+    if (user) {
+      history.push("/");
+    }
   };
   return (
     <div>
