@@ -1,6 +1,6 @@
 import "./App.css";
 import { Button } from "antd";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import Home from "./components/Home";
 import Signup from "./components/Signup";
 import Signin from "./components/Signin";
@@ -16,7 +16,18 @@ function App() {
       <Route
         exact
         path="/"
-        component={(props) => <Home {...props} user={user} />}
+        // component={
+        //   user.email != undefined
+        //     ? (props) => <Home {...props} user={user} />
+        //     : Signin
+        // }
+        render={(props) => {
+          return user.email !== undefined ? (
+            <Home {...props} user={user} />
+          ) : (
+            <Redirect to="/signin" />
+          );
+        }}
       />
 
       <Route exact path="/signup" component={Signup} />
