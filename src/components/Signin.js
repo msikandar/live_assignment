@@ -60,11 +60,12 @@ function Signin() {
     },
   };
   useEffect(() => {
+    console.log(user);
     if (user.email != undefined) {
       history.push("/");
-    } 
+    }
     console.log(user);
-  }, []);
+  }, [user]);
   const handleSubmit = () => {
     console.log(email, password);
 
@@ -74,9 +75,9 @@ function Signin() {
         password: password,
       })
     );
-    if (user) {
-      history.push("/");
-    }
+    // if (user) {
+    //   history.push("/");
+    // }
   };
   return (
     <div>
@@ -124,7 +125,7 @@ function Signin() {
                 style={styles.button}
                 block
                 size="large"
-                onClick={handleSubmit}
+                onClick={email != "" && password != "" ? handleSubmit : null}
               >
                 Login
               </Button>

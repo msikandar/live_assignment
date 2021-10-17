@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Switch } from "antd";
 import { Button } from "antd";
 import { LogoutOutlined } from "@ant-design/icons";
-import { useHistory, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
 import { userLogout } from "../redux/actions/appActions";
 
 function Home({ user }) {

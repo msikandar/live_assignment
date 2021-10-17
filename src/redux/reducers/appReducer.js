@@ -13,7 +13,7 @@ const initialUsers = JSON.parse(store("users")) || [
   },
 ];
 
-const loggedInUser = JSON.parse(store("loggedInUser")) || {};
+let loggedInUser = JSON.parse(store("loggedInUser")) || {};
 
 if (isNull(store("users"))) {
   store("users", JSON.stringify(initialUsers));
@@ -79,14 +79,15 @@ export const userLoginReducer = (state = loggedInUser, { type, payload }) => {
       }
       // state.unshift(payload); //append payload to start of stories array
       // store("users", JSON.stringify(state));
-      return { ...state }; //copy updated stories to the state
+      return { ...loggedInUser }; //copy updated stories to the state
     }
     case ActionTypes.USER_LOGOUT: {
       console.log(payload);
-      state = {};
+      loggedInUser = {};
       // state.unshift(payload); //append payload to start of stories array
-      store("loggedInUser", JSON.stringify(state));
-      return state; //copy updated stories to the state
+      store("loggedInUser", JSON.stringify({}));
+      console.log(state);
+      return {}; //copy updated stories to the state
     }
     default:
       return state;
